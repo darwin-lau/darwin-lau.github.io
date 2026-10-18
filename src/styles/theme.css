@@ -15,24 +15,22 @@
 /* Light theme values */
 :root,
 [data-theme="light"] {
-  --font-display:
-    "Iowan Old Style", "Palatino Linotype", "Songti SC", "STSong", serif;
-  --background: #f6f4ee;
-  --foreground: #292e29;
+  --background: #fafafa;
+  --foreground: #262626;
   --accent: #285c48;
   --accent-foreground: #ffffff;
-  --muted: #eae9df;
-  --muted-foreground: #696e64;
-  --border: #d8dace;
+  --muted: #eeeeee;
+  --muted-foreground: #666666;
+  --border: #e0e0e0;
 }
 
 /* Dark theme values */
 [data-theme="dark"] {
-  --background: #18201c;
-  --foreground: #e5e8de;
+  --background: #191b1a;
+  --foreground: #e7e9e8;
   --accent: #a5c9b0;
   --accent-foreground: #152a21;
-  --muted: #26312a;
-  --muted-foreground: #abb7aa;
-  --border: #3a463a;
+  --muted: #252826;
+  --muted-foreground: #a6aaa8;
+  --border: #3d413f;
 }

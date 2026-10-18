@@ -48,7 +48,7 @@ const hasPosts = (await getCollection("posts")).some(postFilter);
               ? "开发模式提示：请先运行构建命令，再在开发环境中查看搜索结果。"
               : "DEV mode warning: Build the project at least once to see search results during development."
           }
-        ></div>
+        />
       ) : (
         <p class="text-muted-foreground py-8">
           还没有可搜索的公开文章。欢迎稍后再来。
@@ -156,7 +156,13 @@ const hasPosts = (await getCollection("posts")).some(postFilter);
 
     input {
       font-weight: 400;
-      border: 1px solid var(--border);
+      border: 1px solid
+        color-mix(in srgb, var(--foreground) 50%, var(--background));
+    }
+
+    input::placeholder {
+      color: var(--muted-foreground);
+      opacity: 1;
     }
 
     input:focus-visible {

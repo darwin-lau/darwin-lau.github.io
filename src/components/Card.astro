@@ -14,42 +14,38 @@ const { title, description, ...props } = data;
 ---
 
 <li class="post-row">
-  <div class="post-date">
-    <Datetime {...props} />
-  </div>
   <div class="post-summary">
     <Heading class="post-title" transition:name={toTransitionName(title)}>
       <a href={getPostUrl(id, filePath, Astro.currentLocale)}>
-        <span>{title}</span>
-        <span class="post-arrow" aria-hidden="true">↗</span>
+        {title}
       </a>
     </Heading>
     <p class="post-description">{description}</p>
+  </div>
+  <div class="post-date">
+    <Datetime {...props} />
   </div>
 </li>
 
 <style>
   .post-row {
     display: grid;
-    gap: 1rem;
-    padding-block: 2rem;
-    border-block-start: 1px solid var(--border);
+    gap: 0.6rem;
+    padding-block: 1.25rem;
   }
 
   .post-date {
-    padding-block-start: 0.35rem;
     color: var(--muted-foreground);
+    white-space: nowrap;
   }
 
   .post-date :global(svg) {
-    width: 1rem;
-    height: 1rem;
-    min-width: 1rem;
-    opacity: 0.7;
+    display: none;
   }
 
-  .post-date :global(time) {
-    font-size: 0.8rem;
+  .post-date :global(time),
+  .post-date :global(span) {
+    font-size: 0.75rem;
     font-variant-numeric: tabular-nums;
   }
 
@@ -59,75 +55,52 @@ const { title, description, ...props } = data;
 
   .post-title {
     margin: 0;
-    font-family: var(--font-display);
-    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    font-family: inherit;
+    font-size: 1.25rem;
     font-weight: 500;
-    line-height: 1.45;
-    letter-spacing: -0.02em;
+    line-height: 1.5;
+    letter-spacing: -0.015em;
   }
 
   .post-title a {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1.5rem;
     color: var(--foreground);
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.22em;
     transition:
-      color 180ms ease,
-      transform 240ms ease;
+      color 160ms ease,
+      text-decoration-color 160ms ease;
   }
 
-  .post-arrow {
-    flex-shrink: 0;
+  .post-title a:hover,
+  .post-title a:focus-visible {
     color: var(--accent);
-    font-family: sans-serif;
-    font-size: 1.35rem;
-    opacity: 0.6;
-    transition:
-      transform 240ms ease,
-      opacity 180ms ease;
-  }
-
-  .post-row:hover .post-title a,
-  .post-row:focus-within .post-title a {
-    color: var(--accent);
-    transform: translateX(3px);
-  }
-
-  .post-row:hover .post-arrow,
-  .post-row:focus-within .post-arrow {
-    opacity: 1;
-    transform: translate(2px, -2px);
+    text-decoration-color: currentColor;
   }
 
   .post-description {
-    max-width: 65ch;
-    margin: 0.85rem 0 0;
+    max-width: 68ch;
+    margin: 0.45rem 0 0;
     color: var(--muted-foreground);
-    font-size: 0.95rem;
-    line-height: 1.85;
+    font-size: 0.9375rem;
+    line-height: 1.8;
   }
 
   @media (min-width: 768px) {
     .post-row {
-      grid-template-columns: minmax(9rem, 0.22fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) auto;
       gap: 2rem;
-      padding-block: 2.5rem;
+    }
+
+    .post-date {
+      justify-self: end;
+      padding-block-start: 0.25rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .post-title a,
-    .post-arrow {
+    .post-title a {
       transition: none;
-    }
-
-    .post-row:hover .post-title a,
-    .post-row:focus-within .post-title a,
-    .post-row:hover .post-arrow,
-    .post-row:focus-within .post-arrow {
-      transform: none;
     }
   }
 </style>

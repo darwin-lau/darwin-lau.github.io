@@ -22,14 +22,6 @@
   body {
     line-height: 1.8;
     overflow-wrap: anywhere;
-    background-image: radial-gradient(
-      color-mix(in srgb, var(--foreground) 7%, transparent) 0.5px,
-      transparent 0.5px
-    );
-    background-size: 6px 6px;
-    transition:
-      background-color 240ms ease,
-      color 240ms ease;
     -webkit-font-smoothing: antialiased;
   }
   h1,
@@ -44,11 +36,10 @@
     font-variant-numeric: tabular-nums;
   }
   .article-title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3.15rem);
-    font-weight: 500;
+    font-size: clamp(1.875rem, 3vw, 2.5rem);
+    font-weight: 600;
     line-height: 1.45;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.025em;
   }
   code,
   pre {
@@ -76,18 +67,7 @@
 }
 
 :target {
-  scroll-margin-block: 7rem;
-}
-
-@keyframes enter-page {
-  from {
-    opacity: 0;
-    transform: translateY(1rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  scroll-margin-block: 2rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

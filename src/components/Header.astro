@@ -36,25 +36,21 @@ const isActive = (path: string) => {
 <a
   id="skip-to-content"
   href="#main-content"
-  class="bg-background text-accent absolute inset-s-16 -top-full z-50 px-3 py-2 backdrop-blur-lg transition-all focus:top-4"
+  class="bg-background text-accent absolute inset-s-4 -top-full z-50 px-3 py-2 focus:top-4"
 >
   {t.a11y.skipToContent}
 </a>
 
 <header class="site-header">
   <div
-    class="app-layout header-inner relative flex w-full items-baseline justify-between py-4 md:items-center md:py-5"
+    class="app-layout header-inner relative flex w-full items-baseline justify-between md:items-center"
   >
     <a
       href={getRelativeLocaleUrl(locale, "")}
       class="brand-link absolute py-1 whitespace-nowrap md:static md:my-auto"
     >
       <span class="brand-mark" aria-hidden="true">D</span>
-      <span class="brand-name"
-        >{site.title}<span class="brand-caption" aria-hidden="true"
-          >A PERSONAL JOURNAL</span
-        ></span
-      >
+      <span class="brand-name">{site.title}</span>
     </a>
     <nav
       id="nav-menu"
@@ -161,15 +157,12 @@ const isActive = (path: string) => {
 
 <style>
   .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 30;
     border-bottom: 1px solid var(--border);
-    background: color-mix(in srgb, var(--background) 92%, transparent);
-    backdrop-filter: blur(18px);
+    background: var(--background);
   }
   .header-inner {
-    min-height: 5.5rem;
+    min-height: 4.5rem;
+    padding-block: 0.75rem;
   }
   .brand-link {
     display: flex;
@@ -185,29 +178,15 @@ const isActive = (path: string) => {
     border: 1px solid var(--accent);
     border-radius: 0.3rem;
     color: var(--accent);
-    font: italic 1.7rem/1 var(--font-display);
-    transition:
-      transform 250ms ease,
-      background-color 250ms ease;
-  }
-  .brand-link:hover .brand-mark {
-    transform: rotate(-5deg);
-    background: var(--muted);
+    font:
+      italic 1.7rem/1 "Iowan Old Style",
+      "Palatino Linotype",
+      serif;
   }
   .brand-name {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
     font-size: 0.9375rem;
     font-weight: 600;
-    line-height: 1.25;
-    letter-spacing: 0.02em;
-  }
-  .brand-caption {
-    color: var(--muted-foreground);
-    font-size: 0.5rem;
-    font-weight: 400;
-    letter-spacing: 0.17em;
+    line-height: 1.4;
   }
   #menu-items {
     font-size: 0.8125rem;
@@ -216,32 +195,21 @@ const isActive = (path: string) => {
   #theme-btn {
     min-height: 2.75rem;
     min-width: 2.75rem;
-    transition:
-      color 200ms ease,
-      background-color 200ms ease;
+    transition: color 150ms ease;
   }
   #menu-items :global(a:hover),
   #theme-btn:hover {
     color: var(--accent);
   }
   @media (max-width: 47.99rem) {
-    .header-inner {
-      min-height: 5rem;
-    }
     .brand-name {
       font-size: 0.875rem;
-    }
-    .brand-mark {
-      width: 2.1rem;
-      height: 2.1rem;
-      font-size: 1.5rem;
     }
     #menu-items {
       padding-top: 1rem;
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .brand-mark,
     #menu-items :global(a),
     #theme-btn {
       transition: none;
