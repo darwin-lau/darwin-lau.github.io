@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 180" role="img" aria-labelledby="title desc">
+  <title id="title">从问题到结论</title>
+  <desc id="desc">三个方框按顺序连接：问题、证据、结论。</desc>
+  <rect width="800" height="180" fill="#f5f5f4" rx="16"/>
+  <g fill="#ffffff" stroke="#475569" stroke-width="2">
+    <rect x="40" y="50" width="180" height="80" rx="8"/>
+    <rect x="310" y="50" width="180" height="80" rx="8"/>
+    <rect x="580" y="50" width="180" height="80" rx="8"/>
+  </g>
+  <g fill="none" stroke="#475569" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M240 90h50m-12-12 12 12-12 12"/>
+    <path d="M510 90h50m-12-12 12 12-12 12"/>
+  </g>
+  <g fill="#0f172a" font-family="system-ui, sans-serif" font-size="28" text-anchor="middle">
+    <text x="130" y="100">问题</text>
+    <text x="400" y="100">证据</text>
+    <text x="670" y="100">结论</text>
+  </g>
+</svg>
