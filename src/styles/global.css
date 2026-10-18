@@ -22,6 +22,33 @@
   body {
     line-height: 1.8;
     overflow-wrap: anywhere;
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent) 0.5px,
+      transparent 0.5px
+    );
+    background-size: 6px 6px;
+    transition:
+      background-color 240ms ease,
+      color 240ms ease;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  time {
+    font-variant-numeric: tabular-nums;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.15rem);
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: -0.035em;
   }
   code,
   pre {
@@ -30,17 +57,51 @@
 }
 
 @utility max-w-app {
-  @apply max-w-3xl;
+  max-width: 80rem;
 }
 
 @utility app-layout {
-  @apply max-w-app mx-auto w-full px-4;
+  @apply max-w-app mx-auto w-full;
+  padding-inline: clamp(1.25rem, 3.75vw, 3rem);
+}
+
+@utility reading-layout {
+  @apply mx-auto w-full;
+  max-width: 56rem;
+  padding-inline: clamp(1.25rem, 3.75vw, 3rem);
 }
 
 @utility active-nav {
-  @apply underline decoration-wavy decoration-2 underline-offset-8;
+  @apply text-accent underline decoration-1 underline-offset-8;
 }
 
 :target {
-  scroll-margin-block: 1rem;
+  scroll-margin-block: 7rem;
+}
+
+@keyframes enter-page {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
 }

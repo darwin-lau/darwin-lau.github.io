@@ -13,19 +13,121 @@ const { variant: Heading = "h2", id, data, filePath } = Astro.props;
 const { title, description, ...props } = data;
 ---
 
-<li class="my-6">
-  <a
-    href={getPostUrl(id, filePath, Astro.currentLocale)}
-    class:list={[
-      "text-accent inline-block text-lg font-medium",
-      "decoration-dashed underline-offset-4 hover:underline",
-      "focus-visible:no-underline focus-visible:underline-offset-0",
-    ]}
-  >
-    <Heading transition:name={toTransitionName(title)}>
-      {title}
+<li class="post-row">
+  <div class="post-date">
+    <Datetime {...props} />
+  </div>
+  <div class="post-summary">
+    <Heading class="post-title" transition:name={toTransitionName(title)}>
+      <a href={getPostUrl(id, filePath, Astro.currentLocale)}>
+        <span>{title}</span>
+        <span class="post-arrow" aria-hidden="true">↗</span>
+      </a>
     </Heading>
-  </a>
-  <Datetime {...props} />
-  <p>{description}</p>
+    <p class="post-description">{description}</p>
+  </div>
 </li>
+
+<style>
+  .post-row {
+    display: grid;
+    gap: 1rem;
+    padding-block: 2rem;
+    border-block-start: 1px solid var(--border);
+  }
+
+  .post-date {
+    padding-block-start: 0.35rem;
+    color: var(--muted-foreground);
+  }
+
+  .post-date :global(svg) {
+    width: 1rem;
+    height: 1rem;
+    min-width: 1rem;
+    opacity: 0.7;
+  }
+
+  .post-date :global(time) {
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .post-summary {
+    min-width: 0;
+  }
+
+  .post-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: -0.02em;
+  }
+
+  .post-title a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    color: var(--foreground);
+    text-decoration: none;
+    transition:
+      color 180ms ease,
+      transform 240ms ease;
+  }
+
+  .post-arrow {
+    flex-shrink: 0;
+    color: var(--accent);
+    font-family: sans-serif;
+    font-size: 1.35rem;
+    opacity: 0.6;
+    transition:
+      transform 240ms ease,
+      opacity 180ms ease;
+  }
+
+  .post-row:hover .post-title a,
+  .post-row:focus-within .post-title a {
+    color: var(--accent);
+    transform: translateX(3px);
+  }
+
+  .post-row:hover .post-arrow,
+  .post-row:focus-within .post-arrow {
+    opacity: 1;
+    transform: translate(2px, -2px);
+  }
+
+  .post-description {
+    max-width: 65ch;
+    margin: 0.85rem 0 0;
+    color: var(--muted-foreground);
+    font-size: 0.95rem;
+    line-height: 1.85;
+  }
+
+  @media (min-width: 768px) {
+    .post-row {
+      grid-template-columns: minmax(9rem, 0.22fr) minmax(0, 1fr);
+      gap: 2rem;
+      padding-block: 2.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-title a,
+    .post-arrow {
+      transition: none;
+    }
+
+    .post-row:hover .post-title a,
+    .post-row:focus-within .post-title a,
+    .post-row:hover .post-arrow,
+    .post-row:focus-within .post-arrow {
+      transform: none;
+    }
+  }
+</style>

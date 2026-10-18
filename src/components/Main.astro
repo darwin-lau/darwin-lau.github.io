@@ -19,12 +19,61 @@ const backUrl = config.features.showBackButton
 <main
   data-backUrl={backUrl}
   id="main-content"
-  class:list={["app-layout pb-4", className]}
+  class:list={["app-layout page-main", className]}
 >
-  <h1 class="text-2xl font-semibold sm:text-3xl">{pageTitle}</h1>
-  <p class="mt-2 mb-6 italic">{pageDesc}</p>
+  <header class="page-header">
+    <h1 class="page-title">{pageTitle}</h1>
+    {pageDesc && <p class="page-description">{pageDesc}</p>}
+  </header>
   <slot />
 </main>
+
+<style>
+  .page-main {
+    padding-block-end: 2rem;
+  }
+
+  .page-header {
+    padding-block: 2.5rem 3rem;
+    margin-block-end: 1.5rem;
+    border-block-end: 1px solid var(--border);
+  }
+
+  .page-header::before {
+    display: block;
+    width: 2.75rem;
+    height: 2px;
+    margin-block-end: 1.5rem;
+    background: var(--accent);
+    content: "";
+  }
+
+  .page-title {
+    margin: 0;
+    color: var(--foreground);
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 6vw, 5rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+  }
+
+  .page-description {
+    max-width: 42rem;
+    margin: 1.1rem 0 0;
+    color: var(--muted-foreground);
+    font-size: 1rem;
+    font-style: normal;
+    line-height: 1.85;
+  }
+
+  @media (min-width: 768px) {
+    .page-header {
+      padding-block: 3.5rem 4rem;
+      margin-block-end: 2rem;
+    }
+  }
+</style>
 
 <script>
   document.addEventListener("astro:page-load", () => {

@@ -2,7 +2,6 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import IconUnderline from "@/assets/icons/IconUnderline.svg";
 import IconMenuDeep from "@/assets/icons/IconMenuDeep.svg";
-import IconArchive from "@/assets/icons/IconArchive.svg";
 import IconSunHigh from "@/assets/icons/IconSunHigh.svg";
 import IconSearch from "@/assets/icons/IconSearch.svg";
 import IconMoon from "@/assets/icons/IconMoon.svg";
@@ -42,17 +41,20 @@ const isActive = (path: string) => {
   {t.a11y.skipToContent}
 </a>
 
-<header
-  class="app-layout flex flex-col items-center justify-between md:flex-row"
->
+<header class="site-header">
   <div
-    class="border-border bg-background relative flex w-full items-baseline justify-between border-b py-4 md:items-center md:py-6"
+    class="app-layout header-inner relative flex w-full items-baseline justify-between py-4 md:items-center md:py-5"
   >
     <a
       href={getRelativeLocaleUrl(locale, "")}
-      class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap md:static md:my-auto md:text-2xl md:leading-none"
+      class="brand-link absolute py-1 whitespace-nowrap md:static md:my-auto"
     >
-      {site.title}
+      <span class="brand-mark" aria-hidden="true">D</span>
+      <span class="brand-name"
+        >{site.title}<span class="brand-caption" aria-hidden="true"
+          >A PERSONAL JOURNAL</span
+        ></span
+      >
     </a>
     <nav
       id="nav-menu"
@@ -72,7 +74,7 @@ const isActive = (path: string) => {
       </button>
       <ul
         id="menu-items"
-        class="[&>li>a]:hover:text-accent mt-4 hidden w-44 grid-cols-2 place-content-center gap-2 md:mt-0 md:flex md:w-auto md:gap-x-5 md:gap-y-0 md:[&>li]:h-8 [&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium md:[&>li>a]:px-2 md:[&>li>a]:py-1"
+        class="[&>li>a]:hover:text-accent mt-4 hidden w-44 grid-cols-2 place-content-center gap-2 md:mt-0 md:flex md:w-auto md:gap-x-5 md:gap-y-0 md:[&>li]:min-h-11 [&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium md:[&>li>a]:px-2 md:[&>li>a]:py-1"
       >
         <li class="col-span-2">
           <a
@@ -110,14 +112,7 @@ const isActive = (path: string) => {
                 title={t.nav.archives}
                 aria-label={t.nav.archives}
               >
-                <IconArchive class="hidden md:absolute md:top-1/2 md:left-1/2 md:block md:size-6 md:-translate-x-1/2 md:-translate-y-1/2" />
-                <span class="md:sr-only">{t.nav.archives}</span>
-                {isActive("/archives") && (
-                  <IconUnderline
-                    aria-hidden="true"
-                    class="scale-125 max-md:hidden md:absolute md:bottom-0 md:w-6"
-                  />
-                )}
+                <span>{t.nav.archives}</span>
               </LinkButton>
             </li>
           )
@@ -163,6 +158,96 @@ const isActive = (path: string) => {
     </nav>
   </div>
 </header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--background) 92%, transparent);
+    backdrop-filter: blur(18px);
+  }
+  .header-inner {
+    min-height: 5.5rem;
+  }
+  .brand-link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--foreground);
+  }
+  .brand-mark {
+    display: grid;
+    width: 2.4rem;
+    height: 2.4rem;
+    place-content: center;
+    border: 1px solid var(--accent);
+    border-radius: 0.3rem;
+    color: var(--accent);
+    font: italic 1.7rem/1 var(--font-display);
+    transition:
+      transform 250ms ease,
+      background-color 250ms ease;
+  }
+  .brand-link:hover .brand-mark {
+    transform: rotate(-5deg);
+    background: var(--muted);
+  }
+  .brand-name {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: 0.02em;
+  }
+  .brand-caption {
+    color: var(--muted-foreground);
+    font-size: 0.5rem;
+    font-weight: 400;
+    letter-spacing: 0.17em;
+  }
+  #menu-items {
+    font-size: 0.8125rem;
+  }
+  #menu-items :global(a),
+  #theme-btn {
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+    transition:
+      color 200ms ease,
+      background-color 200ms ease;
+  }
+  #menu-items :global(a:hover),
+  #theme-btn:hover {
+    color: var(--accent);
+  }
+  @media (max-width: 47.99rem) {
+    .header-inner {
+      min-height: 5rem;
+    }
+    .brand-name {
+      font-size: 0.875rem;
+    }
+    .brand-mark {
+      width: 2.1rem;
+      height: 2.1rem;
+      font-size: 1.5rem;
+    }
+    #menu-items {
+      padding-top: 1rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .brand-mark,
+    #menu-items :global(a),
+    #theme-btn {
+      transition: none;
+    }
+  }
+</style>
 
 <script>
   function toggleNav() {

@@ -6,14 +6,13 @@ import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Socials from "@/components/Socials.astro";
 import Card from "@/components/Card.astro";
-import LinkButton from "@/components/LinkButton.astro";
+import OrbitalSketch from "@/components/OrbitalSketch.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
 
-const { socials, posts: postsConfig } = config;
+const { posts: postsConfig } = config;
 
 const locale = Astro.currentLocale ?? config.site.lang;
 const t = useTranslations(locale);
@@ -31,76 +30,60 @@ const homePath = getRelativeLocaleUrl(locale, "");
     id="main-content"
     data-layout="index"
     data-home-path={homePath}
-    class="app-layout"
+    class="app-layout home-layout"
   >
-    <section
-      id="hero"
-      class="border-border border-b pt-12 pb-10 sm:pt-20 sm:pb-14"
-    >
-      <p class="text-accent text-xs font-medium tracking-[0.2em]">
-        TECHNOLOGY · RESEARCH · NOTES
-      </p>
-      <h1
-        class="mt-5 mb-6 text-3xl leading-snug font-semibold tracking-tight sm:text-5xl"
-      >
-        记录，让思考更清晰。
-      </h1>
-      <a
-        href={`${import.meta.env.BASE_URL.replace(/\/?$/, "/")}rss.xml`}
-        class="text-accent mt-6 inline-flex items-center gap-2 text-sm"
-        aria-label="RSS 订阅"
-        title="RSS 订阅"
-      >
-        <IconRss
-          width={20}
-          height={20}
-          class="stroke-accent scale-125 stroke-3 rtl:-rotate-90"
-        />
-        <span>订阅更新</span>
-      </a>
-
-      <p class="text-muted-foreground mt-5 max-w-xl text-base sm:text-lg">
-        这里是 Darwin
-        的技术笔记。记录技术实践与研究思考，把问题、方法与值得留下的想法写下来。
-      </p>
-      {
-        socials.length > 0 && (
-          <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">
-              {t.home.socialLinks}:
-            </div>
-            <Socials />
-          </div>
-        )
-      }
+    <section id="hero" class="hero" aria-labelledby="hero-heading">
+      <div class="hero-copy">
+        <p class="eyebrow hero-enter">
+          Darwin’s notebook <span aria-hidden="true">/</span> 技术与研究
+        </p>
+        <h1 id="hero-heading" class="hero-enter">
+          记录，让思考<br /><span>更清晰。</span>
+        </h1>
+        <p class="hero-description hero-enter">
+          在实践中寻找答案，在研究中保持好奇。<br
+            class="hidden sm:block"
+          />这里记录问题、方法，以及值得留下的思考。
+        </p>
+        <div class="hero-actions hero-enter">
+          <a class="primary-link" href={getRelativeLocaleUrl(locale, "posts")}
+            >浏览笔记 <IconArrowRight aria-hidden="true" /></a
+          >
+          <a class="quiet-link" href={getRelativeLocaleUrl(locale, "about")}
+            >关于这个博客 <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <a
+          class="hero-rss hero-enter"
+          href={`${import.meta.env.BASE_URL.replace(/\/?$/, "/")}rss.xml`}
+        >
+          <IconRss width={14} height={14} aria-hidden="true" />
+          <span>通过 RSS，慢慢读。</span>
+        </a>
+      </div>
+      <div class="hero-art hero-enter"><OrbitalSketch /></div>
     </section>
 
-    {
-      sortedPosts.length === 0 && (
-        <section class="py-12 sm:py-16" aria-labelledby="empty-heading">
-          <h2 id="empty-heading" class="text-xl font-semibold">
-            最近文章
-          </h2>
-          <p class="text-muted-foreground mt-4">
-            还没有公开文章。欢迎稍后再来，或订阅 RSS 获取更新。
-          </p>
-        </section>
-      )
-    }
+    <div class="section-rule" aria-hidden="true">
+      <span>从问题出发</span><span>在记录中沉淀</span><span>向更深处探索</span>
+    </div>
 
     {
       featuredPosts.length > 0 && (
         <section
           id="featured"
-          class:list={[
-            "pt-12 pb-6",
-            { "border-border border-b": recentPosts.length > 0 },
-          ]}
+          class="notes-section"
+          aria-labelledby="featured-heading"
         >
-          <h2 class="text-2xl font-semibold tracking-wide">
-            {t.home.featured}
-          </h2>
-          <ul>
+          <div class="section-heading">
+            <div>
+              <>
+                <p class="eyebrow">Selected notes</p>
+                <h2 id="featured-heading">{t.home.featured}</h2>
+              </>
+            </div>
+          </div>
+          <ul class="notes-list">
             {featuredPosts.map(data => (
               <Card variant="h3" {...data} />
             ))}
@@ -110,29 +93,327 @@ const homePath = getRelativeLocaleUrl(locale, "");
     }
 
     {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">
-            {t.home.recentPosts}
-          </h2>
-          <ul>
-            {recentPosts.slice(0, postsConfig.perIndex).map(data => (
-              <Card variant="h3" {...data} />
-            ))}
-          </ul>
+      (recentPosts.length > 0 || sortedPosts.length === 0) && (
+        <section
+          id="recent-posts"
+          class="notes-section"
+          aria-labelledby="recent-heading"
+        >
+          <div class="section-heading">
+            <div>
+              <>
+                <p class="eyebrow">The journal</p>
+                <h2 id="recent-heading">
+                  最近文章
+                  <span class="heading-period" aria-hidden="true">
+                    .
+                  </span>
+                </h2>
+              </>
+            </div>
+            <a class="quiet-link" href={getRelativeLocaleUrl(locale, "posts")}>
+              全部文章 <IconArrowRight aria-hidden="true" />
+            </a>
+          </div>
+          {sortedPosts.length === 0 ? (
+            <div class="empty-notebook">
+              <div>
+                <p class="empty-label">一本持续生长的笔记</p>
+                <h3>
+                  留一点空间，
+                  <br />
+                  给新的思考。
+                </h3>
+              </div>
+              <div class="empty-description">
+                <p>还没有公开文章。技术实践与研究笔记，会陆续在这里展开。</p>
+                <a
+                  class="quiet-link"
+                  href={getRelativeLocaleUrl(locale, "about")}
+                >
+                  先了解这个博客 <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </div>
+          ) : (
+            <ul class="notes-list">
+              {recentPosts.slice(0, postsConfig.perIndex).map(data => (
+                <Card variant="h3" {...data} />
+              ))}
+            </ul>
+          )}
         </section>
       )
     }
-
-    <div class="my-8 text-center">
-      <LinkButton href={getRelativeLocaleUrl(locale, "posts")}>
-        {t.home.allPosts}
-        <IconArrowRight class="inline-block rtl:-rotate-180" />
-      </LinkButton>
-    </div>
   </main>
   <Footer />
 </Layout>
+
+<style>
+  .home-layout {
+    padding-bottom: 4.5rem;
+  }
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+    padding-block: clamp(4rem, 7vw, 7rem) 4.5rem;
+  }
+  .hero-copy {
+    min-width: 0;
+  }
+  .eyebrow {
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+  .hero-copy > .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero-copy > .eyebrow span {
+    color: var(--border);
+  }
+  .hero h1 {
+    margin-block: 1.8rem 1.6rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 5.1vw, 5.15rem);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.055em;
+  }
+  .hero h1 span {
+    color: var(--accent);
+  }
+  .hero-description {
+    max-width: 30rem;
+    color: var(--muted-foreground);
+    font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
+    line-height: 2;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.6rem;
+    margin-top: 2.25rem;
+  }
+  .primary-link {
+    display: inline-flex;
+    min-height: 3.25rem;
+    align-items: center;
+    gap: 2rem;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid var(--accent);
+    border-radius: 0.25rem;
+    background: var(--accent);
+    color: var(--accent-foreground);
+    font-size: 0.875rem;
+    transition:
+      transform 220ms ease,
+      box-shadow 220ms ease;
+  }
+  .primary-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 16px color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+  .primary-link:active {
+    transform: translateY(0);
+  }
+  .primary-link svg,
+  .quiet-link svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+  .quiet-link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--foreground);
+    font-size: 0.8125rem;
+    text-decoration: none;
+  }
+  .quiet-link svg,
+  .quiet-link > span {
+    transition: transform 220ms ease;
+  }
+  .quiet-link:hover {
+    color: var(--accent);
+  }
+  .quiet-link:hover svg,
+  .quiet-link:hover > span {
+    transform: translate(3px, -1px);
+  }
+  .hero-rss {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 1.3rem;
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+    transition: color 200ms ease;
+  }
+  .hero-rss:hover {
+    color: var(--accent);
+  }
+  .hero-art {
+    min-width: 0;
+  }
+  .hero-art.hero-enter {
+    animation-delay: 240ms;
+  }
+  .hero-enter {
+    animation: enter-page 850ms cubic-bezier(0.2, 0.65, 0.25, 1) both;
+  }
+  .hero-copy > :nth-child(2) {
+    animation-delay: 80ms;
+  }
+  .hero-copy > :nth-child(3) {
+    animation-delay: 160ms;
+  }
+  .hero-copy > :nth-child(4) {
+    animation-delay: 240ms;
+  }
+  .hero-copy > :nth-child(5) {
+    animation-delay: 320ms;
+  }
+  .section-rule {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.1rem;
+    border-block: 1px solid var(--border);
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+  }
+  .section-rule span::before {
+    content: "+";
+    margin-right: 0.75rem;
+    color: var(--accent);
+  }
+  .notes-section {
+    padding-top: 3.5rem;
+  }
+  .section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .section-heading h2 {
+    margin-top: 0.5rem;
+    font: 500 clamp(1.9rem, 3vw, 2.75rem)/1.4 var(--font-display);
+    letter-spacing: -0.04em;
+  }
+  .heading-period {
+    margin-left: 0.15em;
+    color: var(--accent);
+  }
+  .notes-list {
+    padding: 0;
+    list-style: none;
+  }
+  .empty-notebook {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2.5rem;
+    padding: clamp(1.75rem, 4vw, 3.5rem);
+    border: 1px solid var(--border);
+    border-radius: 0.25rem;
+    background: color-mix(in srgb, var(--muted) 48%, var(--background));
+  }
+  .empty-label {
+    margin-bottom: 1rem;
+    color: var(--muted-foreground);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+  }
+  .empty-notebook h3 {
+    font: 500 clamp(1.8rem, 2.8vw, 2.5rem)/1.6 var(--font-display);
+    letter-spacing: -0.04em;
+  }
+  .empty-description {
+    max-width: 21rem;
+    padding-left: 2rem;
+    border-left: 1px solid var(--border);
+  }
+  .empty-description p {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.9;
+  }
+  .empty-description a {
+    margin-top: 0.75rem;
+  }
+  @media (max-width: 63.99rem) {
+    .hero {
+      gap: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.75rem, 5.3vw, 4.5rem);
+    }
+  }
+  @media (max-width: 47.99rem) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.5rem;
+      padding-block: 3rem 2.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 8vw, 4rem);
+    }
+    .hero-art {
+      width: min(100%, 26rem);
+      margin-inline: auto;
+    }
+    .hero-description {
+      font-size: 0.9375rem;
+    }
+    .section-rule {
+      gap: 0.5rem;
+      font-size: 0.5625rem;
+      letter-spacing: 0;
+    }
+    .section-rule span::before {
+      margin-right: 0.35rem;
+    }
+    .notes-section {
+      padding-top: 2.5rem;
+    }
+    .empty-notebook {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+    .empty-description {
+      max-width: none;
+      padding: 1.5rem 0 0;
+      border-top: 1px solid var(--border);
+      border-left: 0;
+    }
+    .home-layout {
+      padding-bottom: 3rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-enter {
+      animation: none;
+    }
+    .primary-link,
+    .quiet-link svg,
+    .quiet-link > span,
+    .hero-rss {
+      transition: none;
+    }
+  }
+</style>
 
 <script>
   document.addEventListener("astro:page-load", () => {

@@ -37,6 +37,7 @@ test("Chinese metadata, canonical URL, and local resources are configured", asyn
   assert.match(html, /rel="canonical" href="https:\/\/darwin-lau\.github\.io\//);
   assert.doesNotMatch(html, /fonts\.(googleapis|gstatic)\.com/);
   assert.doesNotMatch(html, /satna\.ing|astro-paper\.pages\.dev/);
+  assert.doesNotMatch(html, /href="(?:https:\/\/darwin-lau\.github\.io)?\/rss\.xml\/"/);
 });
 
 test("internal page and asset links resolve to built files", async () => {
