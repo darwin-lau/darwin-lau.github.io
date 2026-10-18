@@ -1,0 +1,3 @@
+variant,mean_duration_seconds,successful_queries,total_queries,source_date,source_url
+调整前,274.8,4,5,2025-12-22,https://vercel.com/blog/we-removed-80-percent-of-our-agents-tools
+调整后,77.4,5,5,2025-12-22,https://vercel.com/blog/we-removed-80-percent-of-our-agents-tools
