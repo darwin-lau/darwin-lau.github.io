@@ -47,7 +47,15 @@ pnpm preview
 - 博客名称：Darwin 的技术笔记；作者：Darwin。
 - 全站使用简体中文，日期按 `Asia/Shanghai` 显示。
 - 发布后保持文章文件名稳定，避免改变已有链接。
-- 首版不包含评论、后台、访问统计或数据库。
+- 文章末尾使用 Giscus 评论，登录 GitHub 后可发表评论；不包含后台、访问统计或自建数据库。
+
+## 评论管理
+
+评论保存在本仓库的 [Discussions / Announcements](https://github.com/darwin-lau/darwin-lau.github.io/discussions/categories/announcements)，可在 GitHub 管理、锁定或删除讨论。新文章会在第一次收到评论或表情反应时自动创建对应讨论。
+
+评论按文章路径关联，修改标题不影响已有评论；发布后更改文件名或路径需要同步迁移讨论。草稿预览不加载评论。
+
+Giscus App 需要安装到本仓库，并保持 Discussions 开启。组件配置位于 `src/components/Comments.astro`；`giscus.json` 将可嵌入评论的来源限定为正式博客和本地预览。评论区接近视口时才加载，跟随站点明暗主题；无法加载时可使用旁边的 GitHub 讨论区链接。
 
 ## 上游与许可证
 

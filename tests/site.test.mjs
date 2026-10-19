@@ -40,6 +40,21 @@ test("Chinese metadata, canonical URL, and local resources are configured", asyn
   assert.doesNotMatch(html, /href="(?:https:\/\/darwin-lau\.github\.io)?\/rss\.xml\/"/);
 });
 
+test("published articles map comments to their own stable paths and the homepage has no widget", async () => {
+  assert.doesNotMatch(await readFile("dist/index.html", "utf8"), /<giscus-widget\b/);
+  for (const slug of [
+    "why-enterprises-build-agent-harnesses",
+    "agent-workflows-after-agents",
+  ]) {
+    const html = await readFile(`dist/posts/${slug}/index.html`, "utf8");
+    const widgets = [...html.matchAll(/<giscus-widget\b[^>]*>/g)];
+    assert.equal(widgets.length, 1, slug);
+    assert.equal(widgets[0][0].match(/\bterm="([^"]+)"/)?.[1], `posts/${slug}`);
+    assert.match(widgets[0][0], /\bmapping="specific"/);
+    assert.match(widgets[0][0], /\bloading="lazy"/);
+  }
+});
+
 test("internal page and asset links resolve to built files", async () => {
   for await (const file of glob("**/*.html", { cwd: "dist" })) {
     const html = await readFile(`dist/${file}`, "utf8");

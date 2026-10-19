@@ -1,0 +1,43 @@
+---
+type Props = { pathname: string };
+
+const { pathname } = Astro.props;
+// Keep discussions attached to the article when its title or domain changes.
+const term = pathname.replace(/^\/+|\/+$/g, "");
+---
+
+<section
+  aria-labelledby="comments-heading"
+  class="mt-12 border-t pt-8"
+  data-pagefind-ignore
+>
+  <h2 id="comments-heading" class="text-lg font-medium">评论</h2>
+  <p class="text-muted-foreground mt-2 mb-6 text-sm">
+    登录 GitHub 即可评论，也可以
+    <a
+      href="https://github.com/darwin-lau/darwin-lau.github.io/discussions/categories/announcements"
+      class="decoration-border hover:text-accent underline underline-offset-4"
+      >前往 GitHub 讨论区</a
+    >。
+  </p>
+  <giscus-widget
+    id="comments"
+    class="block min-h-40"
+    repo="darwin-lau/darwin-lau.github.io"
+    repoid="R_kgDOVODihw"
+    category="Announcements"
+    categoryid="DIC_kwDOVODih84DI9eg"
+    mapping="specific"
+    term={term}
+    strict="1"
+    reactionsenabled="1"
+    emitmetadata="0"
+    inputposition="top"
+    theme="noborder_light"
+    lang="zh-CN"
+    loading="lazy"></giscus-widget>
+</section>
+
+<script>
+  import "@/scripts/comments";
+</script>
